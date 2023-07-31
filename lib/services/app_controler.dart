@@ -6,10 +6,20 @@ import '../entities/produto.dart';
 class AppController extends ChangeNotifier {
 
   static final AppController instance = AppController();
-  List<Produto> produtosNoCarrinho = [];
+  double valorProdutosComprados = 0;
   
-  Future<void> listarProdutosNoCarrinho() async {
-    produtosNoCarrinho = await DatabaseService().listarProdutosNoCarrinho();
+  void somar(Produto produto){
+    valorProdutosComprados = valorProdutosComprados + (produto.quantidade * produto.preco);
+    notifyListeners();
+  }
+
+  void subtrair(Produto produto){
+    valorProdutosComprados = valorProdutosComprados - (produto.quantidade * produto.preco); 
+    notifyListeners();                         
+  }
+
+  void limpar(){
+    valorProdutosComprados = 0;
     notifyListeners();
   }
 

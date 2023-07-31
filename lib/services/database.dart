@@ -1,6 +1,7 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:projeto_final/entities/produto.dart';
 import 'package:isar/isar.dart';
+import 'package:projeto_final/services/app_controler.dart';
 
 class DatabaseService {
   static final DatabaseService _singleton = DatabaseService._internal();
@@ -44,6 +45,20 @@ class DatabaseService {
     return await isarDB.produtos.where().filter().addAoCarrinhoEqualTo(true).findAll();
   }
 
+  Future<void> limparProdutosNoCarrinho() async {
+    final isarDB = await openDB();
+    var produtos = await listarProdutosNoCarrinho();
+
+    for (var element in produtos) {
+      element.addAoCarrinho = false;
+      element.produtoComprado = false;
+    }
+    
+    await isarDB.writeTxn(() async {
+      await isarDB.produtos.putAll(produtos);
+    });
+  }
+
   Future<void> atualizarProdutoAdicionadoAoCarrinho(Produto produto) async {
     final isarDB = await openDB();
 
@@ -53,13 +68,29 @@ class DatabaseService {
     });
   }
 
+  Future<void> editarProduto(Produto produto, int id) async {
+    final isarDB = await openDB();
+
+    var produtoEditado = await isarDB.produtos.get(id);
+    produtoEditado!.nomeDoProduto = produto.nomeDoProduto;
+    produtoEditado.quantidade = produto.quantidade;
+    produtoEditado.unidade = produto.unidade;
+    produtoEditado.preco = produto.preco;
+    produtoEditado.addAoCarrinho = produto.addAoCarrinho;
+    produtoEditado.produtoComprado = produto.produtoComprado;
+
+    await isarDB.writeTxn(() async {
+     await isarDB.produtos.put(produtoEditado);
+    });
+  }
+
   Future<void> riscarProdutoComprado(Produto produto) async {
     final isarDB = await openDB();
 
     await isarDB.writeTxn(() async {
       produto.produtoComprado = !produto.produtoComprado;
-      print(produto.produtoComprado );
       await isarDB.produtos.put(produto);
+
     });
   }
 
@@ -70,9 +101,12 @@ class DatabaseService {
     });
   }
 
-  Future<void> deletarSelecionados(listaProdutosId) async {
+  Future<void> deletarProdutoSelecionado(produtoID) async {
     final isarDB = await openDB();
-    await isarDB.produtos.deleteAll(listaProdutosId);
+
+    await isarDB.writeTxn(() async {
+      await isarDB.produtos.delete(produtoID);
+    });
   }
 
 }
