@@ -1,7 +1,6 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:projeto_final/entities/produto.dart';
 import 'package:isar/isar.dart';
-import 'package:projeto_final/services/app_controler.dart';
 
 class DatabaseService {
   static final DatabaseService _singleton = DatabaseService._internal();
@@ -16,7 +15,6 @@ class DatabaseService {
     final dir = await getApplicationDocumentsDirectory();
 
     if (Isar.instanceNames.isEmpty) {
-      print("Instancia aberta");
       return await Isar.open(
         [ProdutoSchema],
         inspector: true,

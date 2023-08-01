@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_final/screens/all_products.dart';
+import 'package:projeto_final/screens/all_productsscreen.dart';
 import 'package:projeto_final/screens/homescreen.dart';
-import 'package:projeto_final/screens/itens.dart';
+import 'package:projeto_final/screens/new_edit_itemscreen.dart';
 import 'package:projeto_final/services/app_controler.dart';
 
 class AppWidget extends StatelessWidget {

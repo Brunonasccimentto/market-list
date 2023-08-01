@@ -1,6 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:projeto_final/services/database.dart';
-
 import '../entities/produto.dart';
 
 class AppController extends ChangeNotifier {

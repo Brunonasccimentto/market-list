@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_final/components/custom_field.dart';
+import 'package:projeto_final/components/dialogs.dart';
 import 'package:projeto_final/entities/produto.dart';
 import 'package:projeto_final/services/database.dart';
+import '../components/custom_dropdown.dart';
 
 class Itens extends StatefulWidget {
   final String title;
@@ -69,9 +71,9 @@ class _ItensState extends State<Itens> {
                   });
                 },
               ),
+
               Row(
                 children: [
-
                   Flexible(
                     child: CustomField(
                       labelText: "Quantidade",
@@ -95,8 +97,7 @@ class _ItensState extends State<Itens> {
                       labelText: "Preço",
                       initialValue: args == null ? preco.toStringAsFixed(2) : args.preco.toStringAsFixed(2),
                       keyboardType: TextInputType.number,
-                      onChanged: (value) {  
-                        print(value.runtimeType)    ;                 
+                      onChanged: (value) {                                        
                         setState(() {
                           args?.preco = double.parse(value);
                           preco = double.parse(value);
@@ -106,16 +107,13 @@ class _ItensState extends State<Itens> {
                   )
                 ],
               ),
+
               Row(
                 children: [
                   Flexible(
-                    child: DropdownButtonFormField(
+                    child: CustomDropdown(
                       value: args == null ? unidadeSelecionada : args.unidade,
-                      items: unidades.map<DropdownMenuItem>((item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item));
-                      }).toList(),
+                      items: unidades,
                       onChanged: (value){
                         setState(() {
                           args?.unidade = value;
@@ -153,14 +151,17 @@ class _ItensState extends State<Itens> {
 
                 widget.title != "Editar item" ?
                 Container(
-                  margin: const EdgeInsets.only(top: 40),
+                  margin: const EdgeInsets.only(top: 40),                 
                   child: TextButton(
-                    onPressed: () {
-                      
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Colors.white
+                    ), 
+                    onPressed: () {                     
                       cadastrarProduto();                  
                       Navigator.pop(context);
                     },
-                      child: const Text("Cadastrar item")),
+                    child: const Text("Cadastrar item")),
                 ) :
 
                 Container(
@@ -173,13 +174,10 @@ class _ItensState extends State<Itens> {
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white
                         ),                                    
-                        onPressed: () {
-                
+                        onPressed: () {          
                           showDialog(
                             context: context, 
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text("Excluir item"),
-                              content: const Text("Deseja excluir permanentemente esse item?"),
+                            builder: (BuildContext context) => Dialogs(                 
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context), 
@@ -191,7 +189,8 @@ class _ItensState extends State<Itens> {
                                     Navigator.of(context)..pop()..pop();
                                   }, 
                                   child: const Text("Sim")),
-                              ],));                      
+                              ]));  
+
                         },
                         child: const Text("Excluir"), 
                       ),
@@ -217,7 +216,7 @@ class _ItensState extends State<Itens> {
                   //   DatabaseService().deletarTodos();
                   //   Navigator.pushNamed(context, '/');
                   // },
-                  // child: const Text("deletar db"))
+                  // child: const Text("deletar"))
 
         ]),
       ),
