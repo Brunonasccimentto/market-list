@@ -167,12 +167,13 @@ class _ItensState extends State<Itens> {
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.red,
-                          foregroundColor: Colors.white
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 50)
                         ),                                    
                         onPressed: () {          
                           showDialog(
@@ -199,6 +200,7 @@ class _ItensState extends State<Itens> {
                         style: TextButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 50)
                         ),
                         onPressed: () {
                           editarProduto();                   
