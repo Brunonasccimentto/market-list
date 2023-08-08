@@ -181,14 +181,16 @@ class _ItensState extends State<Itens> {
                             builder: (BuildContext context) => Dialogs(                 
                               actions: [
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context), 
+                                  onPressed: () => Navigator.pop(context),
+                                  style: TextButton.styleFrom(foregroundColor: Colors.black87), 
                                   child: const Text("Não")),
                 
                                 TextButton(
                                   onPressed: () async {
                                     await DatabaseService().deletarProdutoSelecionado(args!.produtoID);
                                     Navigator.of(context)..pop()..pop();
-                                  }, 
+                                  },
+                                  style: TextButton.styleFrom(foregroundColor: Colors.black87), 
                                   child: const Text("Sim")),
                               ]));  
 
