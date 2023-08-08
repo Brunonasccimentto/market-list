@@ -186,7 +186,7 @@ class _ItensState extends State<Itens> {
                 
                                 TextButton(
                                   onPressed: () async {
-                                    await DatabaseService().deletarProdutoSelecionado([args!.produtoID]);
+                                    await DatabaseService().deletarProdutoSelecionado(args!.produtoID);
                                     Navigator.of(context)..pop()..pop();
                                   }, 
                                   child: const Text("Sim")),
