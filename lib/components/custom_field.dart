@@ -7,8 +7,9 @@ class CustomField extends StatelessWidget {
   bool? autoFocus;
   TextInputType? keyboardType;
   String? initialValue;
+  String? Function(String?) validator;
 
-  CustomField({required this.labelText, required this.onChanged, this.keyboardType, this.autoFocus, this.initialValue , Key? key})
+  CustomField({required this.labelText, required this.onChanged, this.keyboardType, this.autoFocus, this.initialValue, required this.validator , Key? key})
       : super(key: key);
 
   @override
@@ -20,6 +21,7 @@ class CustomField extends StatelessWidget {
       onChanged: (value) {
         onChanged(value);
       },
+      validator: validator,
       decoration: InputDecoration(
         border: const UnderlineInputBorder(),
         labelText: labelText,
